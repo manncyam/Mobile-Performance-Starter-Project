@@ -43,11 +43,7 @@ public class GameLogic : MonoBehaviour {
 
         initBoard();
     }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
+		
     public void initBoard() {
         //Initialize our board array to be full of 'empty' 0s
         boardRepresentation = new int[9];
