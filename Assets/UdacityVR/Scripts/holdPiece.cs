@@ -16,12 +16,20 @@ public class holdPiece : MonoBehaviour {
 	public float gravityFactor = 10.0f;
 	private Vector3 forceDirection;
 
+	private BoxCollider pieceBeingHeldBoxCollider;
+	private Rigidbody pieceBeingHeldRigidBody;
+	private PlayerPiece playerPiece;
+
 	public void grabPiece(GameObject selectedPiece) {
-        if (selectedPiece.GetComponent<PlayerPiece>().hasBeenPlayed == false) {
+		playerPiece = selectedPiece.GetComponent<PlayerPiece> ();
+		if ( playerPiece.hasBeenPlayed == false) {
             pieceBeingHeld = selectedPiece;
+			pieceBeingHeldRigidBody = pieceBeingHeld.GetComponent<Rigidbody>() as Rigidbody;
+			pieceBeingHeldBoxCollider = pieceBeingHeld.GetComponent<BoxCollider>() as BoxCollider;
             holdingPiece = true;
         }
     }
+
 	// Update is called once per frame
 	void FixedUpdate () {
         if (GameLogic.GetComponent<GameLogic>().playerTurn == true) {
@@ -34,8 +42,10 @@ public class holdPiece : MonoBehaviour {
 					gravityAttractor.transform.position = new Vector3(hit.point.x, hit.point.y + hoverHeight, hit.point.z);
 
 
-					pieceBeingHeld.GetComponent<Rigidbody> ().useGravity = false;
-					pieceBeingHeld.GetComponent<BoxCollider> ().enabled = false;
+					//pieceBeingHeld.GetComponent<Rigidbody> ().useGravity = false;
+					//pieceBeingHeld.GetComponent<BoxCollider> ().enabled = false;
+					pieceBeingHeldBoxCollider.enabled = false;
+					pieceBeingHeldRigidBody.useGravity = false;
 
 					pieceBeingHeld.GetComponent<Rigidbody>().AddForce(gravityAttractor.transform.position - pieceBeingHeld.transform.position);
 
@@ -44,9 +54,12 @@ public class holdPiece : MonoBehaviour {
                         if (Input.GetMouseButtonDown(0)) {
                             holdingPiece = false;
                             hit.collider.gameObject.SetActive(false);
-                            pieceBeingHeld.GetComponent<PlayerPiece>().hasBeenPlayed = true;
-							pieceBeingHeld.GetComponent<Rigidbody> ().useGravity = true;
-							pieceBeingHeld.GetComponent<BoxCollider> ().enabled = true;
+							playerPiece.hasBeenPlayed = true;
+							pieceBeingHeldBoxCollider.enabled = true;
+							pieceBeingHeldRigidBody.useGravity = true;
+//                          pieceBeingHeld.GetComponent<PlayerPiece>().hasBeenPlayed = true;
+//							pieceBeingHeld.GetComponent<Rigidbody> ().useGravity = true;
+//							pieceBeingHeld.GetComponent<BoxCollider> ().enabled = true;
                             GameLogic.GetComponent<GameLogic>().playerMove(hit.collider.gameObject);
                         }
 
