@@ -50,11 +50,11 @@ Step 7
 
 ## After Optimization
 Here is the statistics from Unity:
-Batches: 76
-Tris: 26k
-Verts: 26K
-SetPass calls: 65
-Shadow casters: 7
+Batches: 22
+Tris: 12k
+Verts: 14K
+SetPass calls: 20
+Shadow casters: 0
 
 ## Conclusion
 There is a big improvement in frame rate when changing from using high poly to low poly. There is also a big noticable performance when using particle system and not using it. There is not much to add the game when using the particle system particularly for this game in VR. It could make the player's eyes irritating. Therefore, there should be a consideration when using it. I decide to remove it due to better performance and better for the eyes. 
