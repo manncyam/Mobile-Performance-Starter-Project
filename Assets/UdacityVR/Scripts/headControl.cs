@@ -7,9 +7,11 @@ public class headControl : MonoBehaviour {
     public GameObject Player;
 
     private float speed = 5.0f;
-	// Use this for initialization
-	void Start () {
-		
+
+	private Quaternion initial_rotation;
+
+	void Start(){
+		initial_rotation = transform.rotation;
 	}
 	
 	// Update is called once per frame
@@ -22,11 +24,13 @@ public class headControl : MonoBehaviour {
                 transform.rotation = Quaternion.Slerp(transform.rotation, rot, speed * Time.deltaTime);
             }
         } else {
-            Vector3 dir = Player.transform.position - transform.position;
-            dir.y = 0; // keep the direction strictly horizontal
-            Quaternion rot = Quaternion.LookRotation(-dir);
-            // slerp to the desired rotation over time
-            transform.rotation = Quaternion.Slerp(transform.rotation, rot, speed * Time.deltaTime);
+			if (initial_rotation != transform.rotation) {
+				Vector3 dir = Player.transform.position - transform.position;
+				dir.y = 0; // keep the direction strictly horizontal
+				Quaternion rot = Quaternion.LookRotation (-dir);
+				// slerp to the desired rotation over time
+				transform.rotation = Quaternion.Slerp (transform.rotation, rot, speed * Time.deltaTime);
+			}
         }
         
 	}
